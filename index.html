@@ -204,6 +204,11 @@ input, select, button{ padding:8px; }
 <select id="addPresentDropdown"></select>
 <button onclick="addPresentEngineer()">Add</button>
 
+<button onclick="resetPresentEngineers()"
+        style="margin-top:10px;background:#dc2626;color:white;width:100%;">
+    Reset Present Engineers
+</button>
+
 <div id="presentList" style="margin-top:20px;"></div>
 </div>
 
@@ -647,11 +652,26 @@ setInterval(() => {
     render();
 
 }, 500);
+    /* ===== RESET ONLY PRESENT ENGINEERS ===== */
+function resetPresentEngineers(){
+
+    if(!confirm("⚠ This will remove all Engineers marked as Present Today. Continue?"))
+        return;
+
+    presentEngineers = [];
+
+    localStorage.setItem("presentEngineers", JSON.stringify(presentEngineers));
+
+    render();
+
+    alert("Present Engineers list has been reset.");
+}
 render();
 </script>
 </body>
 
 </html>
+
 
 
 
