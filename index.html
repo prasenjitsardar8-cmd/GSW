@@ -458,25 +458,18 @@ function populateDropdowns(){
     const regionSelected = document.getElementById("region").value;
     const nextEngineer = getNextRecommended(regionSelected, levelFilter);
 
-    masterDD.innerHTML = `
-        <option value=''>Select Engineer</option>
-        <option value='__ALL__'>Select All Engineers</option>
-    `;
-
+    // ===== CLEAR DROPDOWNS FIRST =====
+    masterDD.innerHTML = "";
     assignDD.innerHTML = "";
 
-    // ===== Add Recommended Engineer FIRST =====
-    if(nextEngineer){
-assignDD.innerHTML += `
-    <option value="${nextEngineer}" selected class="recommended-option">
-        ${nextEngineer} ⭐ (Recommended)
-    </option>
-`;
-    }
+    // ===== ADD DEFAULT OPTIONS =====
+    masterDD.innerHTML += `<option value="">Select Engineer</option>`;
+    masterDD.innerHTML += `<option value="__ALL__">Select All Engineers</option>`;
 
-    // ===== Add Other Present Engineers =====
+    // ===== POPULATE PRESENT ENGINEER DROPDOWN =====
     masterEngineers.forEach(e => {
 
+        // Only show engineers NOT already present
         if(!presentEngineers.includes(e.name)){
             masterDD.innerHTML += `
                 <option value="${e.name}">
@@ -484,7 +477,18 @@ assignDD.innerHTML += `
                 </option>
             `;
         }
+    });
 
+    // ===== ASSIGN ENGINEER DROPDOWN =====
+    if(nextEngineer){
+        assignDD.innerHTML += `
+            <option value="${nextEngineer}" selected>
+                ${nextEngineer} ⭐ (Recommended)
+            </option>
+        `;
+    }
+
+    masterEngineers.forEach(e => {
         if(presentEngineers.includes(e.name) && e.name !== nextEngineer){
             assignDD.innerHTML += `
                 <option value="${e.name}">
@@ -671,6 +675,7 @@ render();
 </body>
 
 </html>
+
 
 
 
