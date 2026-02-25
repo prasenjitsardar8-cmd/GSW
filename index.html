@@ -636,9 +636,20 @@ function resetAllData(){
 
     alert("Dashboard data has been fully reset.");
 }
+    /* ===== AUTO DATA REFRESH EVERY 5 SECONDS ===== */
+setInterval(() => {
+
+    // Reload latest data from localStorage
+    presentEngineers = JSON.parse(localStorage.getItem("presentEngineers")) || [];
+    cases = JSON.parse(localStorage.getItem("cases")) || [];
+
+    render();
+
+}, 50);
 render();
 </script>
 </body>
 
 </html>
+
 
