@@ -288,11 +288,11 @@ function toggleFlip(card){
     card.classList.toggle("flipped");
 }
 
-    function autoExportCSV(){
+function autoExportCSV(){
 
     if(cases.length === 0) return;
 
-    let csvContent = "Case ID,Engineer,Level,Region,Severity,Assigned Time,Snapshot Time\n";
+    let csvContent = "Case ID,Engineer,Level,Region,Severity,Case Type,Assigned Time,Snapshot Time\n";
 
     const snapshotTime = new Date().toLocaleString("en-IN",{timeZone:"Asia/Kolkata"}) + " IST";
 
@@ -300,7 +300,9 @@ function toggleFlip(card){
         const engineerDetails = masterEngineers.find(e=>e.name===c.engineer);
         const level = engineerDetails ? engineerDetails.level : "";
 
-        csvContent += `${c.caseId},${c.engineer},${level},${c.region},${c.severity},${c.time},${snapshotTime}\n`;
+        const caseType = c.isCar ? "CAR" : "Regular";
+
+        csvContent += `${c.caseId},${c.engineer},${level},${c.region},${c.severity},${caseType},${c.time},${snapshotTime}\n`;
     });
 
     const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
@@ -636,12 +638,15 @@ function exportToExcel(){
         return;
     }
 
-    let csvContent = "Case ID,Engineer,Level,Region,Severity,Assigned Time\n";
+    let csvContent = "Case ID,Engineer,Level,Region,Severity,Case Type,Assigned Time\n";
 
     cases.forEach(c=>{
         const engineerDetails = masterEngineers.find(e=>e.name===c.engineer);
         const level = engineerDetails ? engineerDetails.level : "";
-        csvContent += `${c.caseId},${c.engineer},${level},${c.region},${c.severity},${c.time}\n`;
+
+        const caseType = c.isCar ? "CAR" : "Regular";
+
+        csvContent += `${c.caseId},${c.engineer},${level},${c.region},${c.severity},${caseType},${c.time}\n`;
     });
 
     const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
@@ -702,6 +707,7 @@ render();
 </body>
 
 </html>
+
 
 
 
