@@ -288,6 +288,35 @@ function toggleFlip(card){
     card.classList.toggle("flipped");
 }
 
+    function autoExportCSV(){
+
+    if(cases.length === 0) return;
+
+    let csvContent = "Case ID,Engineer,Level,Region,Severity,Assigned Time,Snapshot Time\n";
+
+    const snapshotTime = new Date().toLocaleString("en-IN",{timeZone:"Asia/Kolkata"}) + " IST";
+
+    cases.forEach(c=>{
+        const engineerDetails = masterEngineers.find(e=>e.name===c.engineer);
+        const level = engineerDetails ? engineerDetails.level : "";
+
+        csvContent += `${c.caseId},${c.engineer},${level},${c.region},${c.severity},${c.time},${snapshotTime}\n`;
+    });
+
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+
+    const fileName = "NOC_Auto_Export.csv";
+
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = fileName;
+
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+
+    console.log("Auto export completed.");
+}
 /* ===== AUTO RESET AT 6:00 AM IST ===== */
 
 let lastResetDate = localStorage.getItem("lastResetDate") || null;
@@ -671,6 +700,7 @@ render();
 </body>
 
 </html>
+
 
 
 
