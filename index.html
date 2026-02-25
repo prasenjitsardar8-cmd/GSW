@@ -317,6 +317,8 @@ function toggleFlip(card){
 
     console.log("Auto export completed.");
 }
+
+    setInterval(autoExportCSV, 4 * 60 * 60 * 1000);
 /* ===== AUTO RESET AT 6:00 AM IST ===== */
 
 let lastResetDate = localStorage.getItem("lastResetDate") || null;
@@ -700,6 +702,7 @@ render();
 </body>
 
 </html>
+
 
 
 
